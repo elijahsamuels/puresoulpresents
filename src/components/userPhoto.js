@@ -7,7 +7,7 @@ export function UserPhoto() {
       <p>
         <h3>User Photo</h3>
       </p>
-      <img src={userSamplePhoto} alt="User Photo" width="200" />
+      <img src={userSamplePhoto} alt="User" width="200" />
     </div>
   );
 }

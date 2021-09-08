@@ -5,6 +5,7 @@ import { ContactInfo } from "./userdata/contactInfo";
 import { TaxInfo } from "./userdata/taxInfo";
 import { UserInfo } from "./userdata/userInfo";
 import { PaymentInfo } from "./userdata/paymentInfo";
+import { getMusicians } from "../actions/userActions"
 
 export function UserDetails() {
   return (
@@ -16,6 +17,7 @@ export function UserDetails() {
       <TaxInfo />
       <StaffInfo />
       <PaymentInfo />
+      {getMusicians()}
     </div>
   );
 }

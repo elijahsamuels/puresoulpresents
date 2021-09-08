@@ -12,6 +12,14 @@ const puresoulAPIkey = process.env.PURESOULAPIKEY;
 const allPureSoulPresentsMuisicians = `${airtableURL}${puresoulAPI}${musiciansTable}${puresoulAPIkey}`;
 const allPureSoulPresentsDates = `${airtableURL}${puresoulAPI}${datesTable}${puresoulAPIkey}`;
 
+
+export function getMusicians(){
+  return fetch(`${allPureSoulPresentsMuisicians}`)
+  .then((response) => response.json())
+  .then(json => console.log(json))
+  .catch((error) => console.log(error));
+}
+
 // export const fetchUsers = () => {
 //   return (dispatch) => {
 //     dispatch({ type: "LOADING" });
