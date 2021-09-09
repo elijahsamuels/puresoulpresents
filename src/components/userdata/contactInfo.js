@@ -1,4 +1,7 @@
 import React from "react";
+import { connect } from "react-redux";
+import { getAllMusicianData } from "../../actions/userActions";
+
 
 export function ContactInfo() {
   return (
@@ -28,4 +31,13 @@ export function ContactInfo() {
   );
 }
 
-export default ContactInfo;
+// export default ContactInfo;
+const mapStateToProps = (state) => {
+  return {
+      loading: state.loading,
+      users: state.users,
+  };
+};
+
+
+export default connect(mapStateToProps, {getAllMusicianData})( ContactInfo);

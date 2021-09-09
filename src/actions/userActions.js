@@ -1,5 +1,5 @@
 import React from "react";
-import {useEffect} from "react";
+import { useEffect } from "react";
 
 require("dotenv").config();
 
@@ -13,26 +13,35 @@ const puresoulAPIkey = process.env.REACT_APP_PURESOULAPIKEY;
 const allPureSoulPresentsMuisicians = `${airtableURL}${puresoulAPI}${musiciansTable}${puresoulAPIkey}`;
 const allPureSoulPresentsDates = `${airtableURL}${puresoulAPI}${datesTable}${puresoulAPIkey}`;
 
-
 // useEffect(() => {
-//   getAllMusicians()
+//   getAllMusicianData()
 // }, [])
 
-// async function getAllMusicians() {
+// async function getAllMusicianData() {
 //     await fetch(`${allPureSoulPresentsMuisicians}`)
 //     .then((response) => response.json())
 //     .then(json => console.log(json))
 //     .catch((error) => console.log(error));
 //   }
-  
 
+// THIS WORKS, but not really right
+// export const getAllMusicianData = () => {
+//   return fetch(`${allPureSoulPresentsMuisicians}`)
+//   .then((response) => response.json())
+//   .then(json => console.log(json))
+//   .catch((error) => console.log(error));
+// }
 
-export const getAllMusicians = () => {
-  return fetch(`${allPureSoulPresentsMuisicians}`)
-  .then((response) => response.json())
-  .then(json => console.log(json))
-  .catch((error) => console.log(error));
-}
+export const getAllMusicianData = () => {
+    return (dispatch) => {
+        dispatch({ type: "LOADING" });
+        fetch(`${allPureSoulPresentsMuisicians}`)
+            .then((response) => response.json())
+            .then((data) => dispatch({ type: "SET_USERS". data}))
+            .catch((error) => console.log(error));
+    };
+};
+
 
 // export const fetchUsers = () => {
 //   return (dispatch) => {
@@ -71,4 +80,4 @@ export const getAllMusicians = () => {
 //   }
 // }
 
-// export default getAllMusicians();
+// export default getAllMusicianData();
