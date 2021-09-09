@@ -6,20 +6,22 @@ import { getAllMusicianData } from "../actions/userActions";
 export function UserList() {
     return (
         <div className="userList">
-            <li><Link to="/">Home</Link></li>
-			<li><Link to="/userdetails">User Details</Link></li>
-asdfad
+            <li>
+                <Link to="/">Home</Link>
+            </li>
+            <li>
+                <Link to="/userdetails">User Details</Link>
+            </li>
+            <h1>User list</h1>
         </div>
     );
 }
 
-
 const mapStateToProps = (state) => {
-  return {
-      loading: state.loading,
-      users: state.users,
-  };
+    return {
+        loading: state.loading,
+        users: state.users,
+    };
 };
 
-
-export default connect(mapStateToProps, {getAllMusicianData})(UserList);
+export default connect(mapStateToProps, { getAllMusicianData })(UserList);
