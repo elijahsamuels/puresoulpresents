@@ -58,41 +58,47 @@ export function UserList(users) {
             </li>
             <h1>User list</h1>
             {console.log(localUsers && localUsers.map((user) => user.fields))}
-            <p>
-                Name:{" "}
+            {/* <p>
                 {localUsers &&
                     localUsers.map((user) => (
                         <p>
                             <strong>Name:</strong> {user.fields.Name} Phone: {user.fields.Phone} Email: {user.fields.Email} Instrument: {user.fields.Instrument}
                         </p>
                     ))}
-            </p>
+            </p> */}
 
             {/* {localUsers.map(user => user.records.map(name => name.fields.Name))} */}
 
             {/* <p> {users} </p> */}
             {/* <p> {() => setlocalUsers(users)} </p> */}
 
-            {/* <TableContainer component={Paper}>
+            <TableContainer component={Paper}>
                 <Table className={classes.table} aria-label="simple table">
                     <TableHead>
                         <TableRow>
                             <TableCell align="center">First Name</TableCell>
-                            <TableCell align="center">Last Name</TableCell>
-                            <TableCell align="center">ID</TableCell>
+                            <TableCell align="center">Phone</TableCell>
+                            <TableCell align="center">Email</TableCell>
+                            <TableCell align="center">Instrument</TableCell>
+                            <TableCell align="center">City</TableCell>
+                            <TableCell align="center">Bio</TableCell>
                         </TableRow>
                     </TableHead>
                     <TableBody>
-                        {localUsers.map((row) => (
-                            <TableRow key={row.name}>
-                                <TableCell align="center">{row.first_name}</TableCell>
-                                <TableCell align="center">{row.last_name}</TableCell>
-                                <TableCell align="center">{row.id}</TableCell>
+                        {localUsers && localUsers.map((user) => (
+                            <TableRow key={user.name}>
+                                <TableCell align="center">{user.fields.Name}</TableCell>
+                                <TableCell align="center">{user.fields.Phone}</TableCell>
+                                <TableCell align="center">{user.fields.Email}</TableCell>
+                                <TableCell align="center">{user.fields.Instrument}</TableCell>
+                                <TableCell align="center">{user.fields.City}</TableCell>
+                                <TableCell align="center">{user.fields.Bio}</TableCell>
+                                {/* <TableCell align="center">{user.id}</TableCell> */}
                             </TableRow>
                         ))}
                     </TableBody>
                 </Table>
-            </TableContainer> */}
+            </TableContainer>
         </div>
     );
 }
