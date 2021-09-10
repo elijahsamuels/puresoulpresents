@@ -22,7 +22,7 @@ const allPureSoulPresentsDates = `${airtableURL}${puresoulAPI}${datesTable}${pur
 
 const useStyles = makeStyles({
     table: {
-        minWidth: 650,
+        minWidth: 200,
     },
 });
 
@@ -33,9 +33,11 @@ const useStyles = makeStyles({
 
 export function UserList(users) {
     // const UserList = (users) => {
+
     const classes = useStyles();
 
     const [localUsers, setlocalUsers] = useState(null);
+    const userW9 = `W9`;
 
     useEffect(() => {
         fetch(`${allPureSoulPresentsMuisicians}`)
@@ -76,26 +78,46 @@ export function UserList(users) {
                 <Table className={classes.table} aria-label="simple table">
                     <TableHead>
                         <TableRow>
+                            <TableCell align="center">All Good?</TableCell>
                             <TableCell align="center">First Name</TableCell>
                             <TableCell align="center">Phone</TableCell>
                             <TableCell align="center">Email</TableCell>
                             <TableCell align="center">Instrument</TableCell>
                             <TableCell align="center">City</TableCell>
                             <TableCell align="center">Bio</TableCell>
+                            <TableCell align="center">W9</TableCell>
                         </TableRow>
                     </TableHead>
                     <TableBody>
-                        {localUsers && localUsers.map((user) => (
-                            <TableRow key={user.name}>
-                                <TableCell align="center">{user.fields.Name}</TableCell>
-                                <TableCell align="center">{user.fields.Phone}</TableCell>
-                                <TableCell align="center">{user.fields.Email}</TableCell>
-                                <TableCell align="center">{user.fields.Instrument}</TableCell>
-                                <TableCell align="center">{user.fields.City}</TableCell>
-                                <TableCell align="center">{user.fields.Bio}</TableCell>
-                                {/* <TableCell align="center">{user.id}</TableCell> */}
-                            </TableRow>
-                        ))}
+                        {localUsers &&
+                            localUsers.map((user) => (
+                                <TableRow key={user.name}>
+                                    <TableCell align="center">
+                                        { user.fields.Phone && user.fields.Phone && user.fields.Instrument && user.fields.City && user.fields.Bio ? <font color="green">Good</font> : <font color="red">Bad</font>}
+                                    </TableCell>
+                                    <TableCell align="center">
+                                        {user.fields.Name}
+                                    </TableCell>
+                                    <TableCell align="center">
+                                        {user.fields.Phone ? user.fields.Phone : <font color="red">missing phone number</font>}
+                                    </TableCell>
+                                    <TableCell align="center">
+                                        {user.fields.Email ? user.fields.Email : <font color="red">missing email</font>}
+                                    </TableCell>
+                                    <TableCell align="center">
+                                        {user.fields.Instrument ? user.fields.Instrument : <font color="red">missing instrument(s)</font>}
+                                    </TableCell>
+                                    <TableCell align="center">
+                                        {user.fields.City ? user.fields.City : <font color="red">missing city</font>}
+                                    </TableCell>
+                                    <TableCell align="center">
+                                        {user.fields.Bio ? user.fields.Bio : <font color="red">missing bio</font>}
+                                    </TableCell>
+                                    {/* <TableCell align="center">{user.fields[`W9`]}</TableCell> */}
+                                    {/* <TableCell align="center">{user.fields.Headshot["url"]}</TableCell> */}
+                                    {/* <TableCell align="center">{user.id}</TableCell> */}
+                                </TableRow>
+                            ))}
                     </TableBody>
                 </Table>
             </TableContainer>
