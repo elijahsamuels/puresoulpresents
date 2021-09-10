@@ -26,13 +26,7 @@ const useStyles = makeStyles({
     },
 });
 
-// { first_name: "Bob", last_name: "Smith", id: 1 },
-// { first_name: "Jane", last_name: "Doe", id: 2 },
-// { first_name: "John", last_name: "Doe", id: 3 },
-// { first_name: "Bill", last_name: "Nye", id: 4 },
-
 export function UserList(users) {
-    // const UserList = (users) => {
 
     const classes = useStyles();
 
@@ -46,10 +40,9 @@ export function UserList(users) {
             .then((data) => setlocalUsers(data.records))
             // .then((data) => dispatch({ type: "SET_USERS". data}))
             .catch((error) => console.log(error));
-
         console.log("useEffect Ran");
     }, []);
-
+        
     return (
         <div className="userList">
             <li>
@@ -93,7 +86,7 @@ export function UserList(users) {
                             localUsers.map((user) => (
                                 <TableRow key={user.name}>
                                     <TableCell align="center">
-                                        { user.fields.Phone && user.fields.Phone && user.fields.Instrument && user.fields.City && user.fields.Bio ? <font color="green">Good</font> : <font color="red">Bad</font>}
+                                        { user.fields.Phone && user.fields.Phone && user.fields.Instrument && user.fields.City && user.fields.Bio ? <font color="green">Good</font> : <font color="red">Info Missing</font>}
                                     </TableCell>
                                     <TableCell align="center">
                                         {user.fields.Name}
@@ -103,6 +96,7 @@ export function UserList(users) {
                                     </TableCell>
                                     <TableCell align="center">
                                         {user.fields.Email ? user.fields.Email : <font color="red">missing email</font>}
+                                        {/* {user.fields.Email ? <a href="mailto:${user.fields.Email}">{user.fields.Email}</a> : <font color="red">missing email</font>} */}
                                     </TableCell>
                                     <TableCell align="center">
                                         {user.fields.Instrument ? user.fields.Instrument : <font color="red">missing instrument(s)</font>}
