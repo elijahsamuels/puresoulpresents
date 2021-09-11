@@ -31,13 +31,21 @@ export function UserList(users) {
     const classes = useStyles();
 
     const [localUsers, setlocalUsers] = useState(null);
-    const userW9 = `W9`;
+
+    const userW9URL = (userData) => {
+        return userData["W9"] ? <a href={userData["W9"][0].url}>User W9</a> : <font color="red">missing W9</font>
+        console.log(userData["W9"])
+        // console.log(Object.values(userData))
+
+        // userDataFilename: userData.filename,
+    }
 
     useEffect(() => {
         fetch(`${allPureSoulPresentsMuisicians}`)
             .then((response) => response.json())
             // .then(data => console.log(data.records[0].fields.Name))
             .then((data) => setlocalUsers(data.records))
+
             // .then((data) => dispatch({ type: "SET_USERS". data}))
             .catch((error) => console.log(error));
         console.log("useEffect Ran");
@@ -107,13 +115,19 @@ export function UserList(users) {
                                     <TableCell align="center">
                                         {user.fields.Bio ? user.fields.Bio : <font color="red">missing bio</font>}
                                     </TableCell>
-                                    {/* <TableCell align="center">{user.fields[`W9`]}</TableCell> */}
+                                    <TableCell align="center">{userW9URL(user.fields)}</TableCell>
+                                    {/* <TableCell align="center">{user.fields['W9'][0].url.toString()}</TableCell> */}
                                     {/* <TableCell align="center">{user.fields.Headshot["url"]}</TableCell> */}
                                     {/* <TableCell align="center">{user.id}</TableCell> */}
+
+                                    {/* 
+                                    temp1[0].url
+                                    temp1[0].filename
+                                    */}
                                 </TableRow>
                             ))}
                     </TableBody>
-                </Table>
+                </Table>    
             </TableContainer>
         </div>
     );

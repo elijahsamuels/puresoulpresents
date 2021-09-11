@@ -10,6 +10,20 @@ export function Index() {
 
 				<li><Link to="/userdetails">User Details</Link></li>
 				<li><Link to="/userlist">User List</Link></li>
+
+
+
+
+
+
+
+
+
+
+
+
+
+                
             </div>
         );
     }
