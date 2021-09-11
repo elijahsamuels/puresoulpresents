@@ -94,7 +94,7 @@ export function UserList(users) {
                             localUsers.map((user) => (
                                 <TableRow key={user.name}>
                                     <TableCell align="center">
-                                        { user.fields.Phone && user.fields.Phone && user.fields.Instrument && user.fields.City && user.fields.Bio ? <font color="green">Good</font> : <font color="red">Info Missing</font>}
+                                        { user.fields.Phone && user.fields.Phone && user.fields.Instrument && user.fields.City && user.fields.Bio && (userW9URL(user.fields) !== true) ? <font color="green">Good</font> : <font color="red">Info Missing</font>}
                                     </TableCell>
                                     <TableCell align="center">
                                         {user.fields.Name}
