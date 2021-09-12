@@ -11,6 +11,7 @@ import TableContainer from "@material-ui/core/TableContainer";
 import TableHead from "@material-ui/core/TableHead";
 import TableRow from "@material-ui/core/TableRow";
 import Paper from "@material-ui/core/Paper";
+import userSamplePhoto from "../images/userSamplePhoto.png";
 
 const airtableURL = "https://api.airtable.com/v0/";
 const puresoulAPI = process.env.REACT_APP_PURESOULAPI;
@@ -34,11 +35,14 @@ export function UserList(users) {
 
     const userW9URL = (userData) => {
         return userData["W9"] ? <a href={userData["W9"][0].url}>User W9</a> : <font color="red">missing W9</font>
-        // console.log(userData["W9"])
     }
+
     const userHeadshot = (userData) => {
-        console.log(userData["Headshot"])
+        // console.log(userData["Headshot"])
         return userData["Headshot"] ? <a href={userData["Headshot"][0].url}>Headshot</a> : <font color="red">missing Headshot</font>
+    }
+    const userHeadshotURL = (userData) => {
+        return userData["Headshot"] ? <img src={`${userData["Headshot"][0].url}`} alt="User" width="100" /> : <img src={userSamplePhoto} alt="User" width="100" />
     }
 
     useEffect(() => {
@@ -96,7 +100,7 @@ export function UserList(users) {
                             localUsers.map((user) => (
                                 <TableRow key={user.name}>
                                     <TableCell align="center">
-                                        {console.log(userW9URL(user.fields).props.color)}
+                                        {/* {console.log(userW9URL(user.fields).props.color)} */}
                                         {/* {  (userW9URL(user.fields).props.color !== "red" ) ? <font color="green">Good</font> : <font color="red">Info Missing</font>} */}
                                         { user.fields.Phone && user.fields.Phone && user.fields.Instrument && user.fields.City && user.fields.Bio && (userW9URL(user.fields).props.color !== "red" ) && (userHeadshot(user.fields).props.color !== "red" ) ? <font color="green">Good</font> : <font color="red">Info Missing</font>}
                                     </TableCell>
@@ -120,15 +124,11 @@ export function UserList(users) {
                                         {user.fields.Bio ? user.fields.Bio : <font color="red">missing bio</font>}
                                     </TableCell>
                                     <TableCell align="center">{userW9URL(user.fields)}</TableCell>
-                                    <TableCell align="center">{userHeadshot(user.fields)}</TableCell>
+                                    <TableCell align="center">{userHeadshotURL(user.fields)}</TableCell>
                                     {/* <TableCell align="center">{user.fields['W9'][0].url.toString()}</TableCell> */}
                                     {/* <TableCell align="center">{user.fields.Headshot["url"]}</TableCell> */}
                                     {/* <TableCell align="center">{user.id}</TableCell> */}
 
-                                    {/* 
-                                    temp1[0].url
-                                    temp1[0].filename
-                                    */}
                                 </TableRow>
                             ))}
                     </TableBody>
