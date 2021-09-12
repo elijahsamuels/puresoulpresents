@@ -34,10 +34,11 @@ export function UserList(users) {
 
     const userW9URL = (userData) => {
         return userData["W9"] ? <a href={userData["W9"][0].url}>User W9</a> : <font color="red">missing W9</font>
-        console.log(userData["W9"])
-        // console.log(Object.values(userData))
-
-        // userDataFilename: userData.filename,
+        // console.log(userData["W9"])
+    }
+    const userHeadshot = (userData) => {
+        console.log(userData["Headshot"])
+        return userData["Headshot"] ? <a href={userData["Headshot"][0].url}>Headshot</a> : <font color="red">missing Headshot</font>
     }
 
     useEffect(() => {
@@ -87,6 +88,7 @@ export function UserList(users) {
                             <TableCell align="center">City</TableCell>
                             <TableCell align="center">Bio</TableCell>
                             <TableCell align="center">W9</TableCell>
+                            <TableCell align="center">Headshot</TableCell>
                         </TableRow>
                     </TableHead>
                     <TableBody>
@@ -94,7 +96,9 @@ export function UserList(users) {
                             localUsers.map((user) => (
                                 <TableRow key={user.name}>
                                     <TableCell align="center">
-                                        { user.fields.Phone && user.fields.Phone && user.fields.Instrument && user.fields.City && user.fields.Bio && (userW9URL(user.fields) !== true) ? <font color="green">Good</font> : <font color="red">Info Missing</font>}
+                                        {console.log(userW9URL(user.fields).props.color)}
+                                        {/* {  (userW9URL(user.fields).props.color !== "red" ) ? <font color="green">Good</font> : <font color="red">Info Missing</font>} */}
+                                        { user.fields.Phone && user.fields.Phone && user.fields.Instrument && user.fields.City && user.fields.Bio && (userW9URL(user.fields).props.color !== "red" ) && (userHeadshot(user.fields).props.color !== "red" ) ? <font color="green">Good</font> : <font color="red">Info Missing</font>}
                                     </TableCell>
                                     <TableCell align="center">
                                         {user.fields.Name}
@@ -116,6 +120,7 @@ export function UserList(users) {
                                         {user.fields.Bio ? user.fields.Bio : <font color="red">missing bio</font>}
                                     </TableCell>
                                     <TableCell align="center">{userW9URL(user.fields)}</TableCell>
+                                    <TableCell align="center">{userHeadshot(user.fields)}</TableCell>
                                     {/* <TableCell align="center">{user.fields['W9'][0].url.toString()}</TableCell> */}
                                     {/* <TableCell align="center">{user.fields.Headshot["url"]}</TableCell> */}
                                     {/* <TableCell align="center">{user.id}</TableCell> */}
