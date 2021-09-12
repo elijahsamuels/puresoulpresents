@@ -33,14 +33,39 @@ export function UserList(users) {
 
     const [localUsers, setlocalUsers] = useState(null);
 
+    const userName = (userData) => {
+        return userData.Name ? userData.Name : <font color="red">Missing Name</font>
+    }
+
+    const userPhone = (userData) => {
+        return userData.Phone ? userData.Phone : <font color="red">Missing Phone</font>
+    }
+
+    const userInstrument = (userData) => {
+        return userData.Instrument ? userData.Instrument : <font color="red">Missing Instrument</font>
+    }
+
+    const userCity = (userData) => {
+        return userData.City ? userData.City : <font color="red">Missing City</font>
+    }
+
+    const userBio = (userData) => {
+        return userData.Bio ? userData.Bio : <font color="red">Missing Bio</font>
+    }
+
+    // This string interpolation needs to be fixed
+    const userEmail = (userData) => {
+        return userData.Email ? <a href="mailto:${user.Email}">{userData.Email}</a> : <font color="red">Missing Email</font>
+    }
+
     const userW9URL = (userData) => {
         return userData["W9"] ? <a href={userData["W9"][0].url}>User W9</a> : <font color="red">missing W9</font>
     }
 
     const userHeadshot = (userData) => {
-        // console.log(Object.values(userData["Headshot"][0]["thumbnails"]))
         return userData["Headshot"] ? <a href={userData["Headshot"][0].url}>Headshot</a> : <font color="red">missing Headshot</font>
     }
+
     const userHeadshotURL = (userData) => {
         return userData["Headshot"] ? <img src={`${userData["Headshot"][0].url}`} alt="User" width="100" /> : <img src={userSamplePhoto} alt="User" width="100" />
     }
@@ -48,6 +73,14 @@ export function UserList(users) {
     const userHeadshotThumbnails = (userData) => {
         return userData["Headshot"] ? 
         <span><a href={`${Object.values(userData["Headshot"][0]["thumbnails"])[0].url}`}>Small</a>{" "}<a href={`${Object.values(userData["Headshot"][0]["thumbnails"])[1].url}`}>Medium</a>{" "}<a href={`${Object.values(userData["Headshot"][0]["thumbnails"])[2].url}`}>Large</a></span> : false
+    }
+
+    const missingData = (userData) => {
+        let missingItems = []
+        // userData.Name ? true : missingItems.push(userData.Name)
+        userData.Phone ? true : missingItems.push(userData.Phone)
+        return missingItems
+
     }
 
     useEffect(() => {
@@ -70,21 +103,9 @@ export function UserList(users) {
                 <Link to="/userdetails">User Details</Link>
             </li>
             <h1>User list</h1>
+
             {console.log(localUsers && localUsers.map((user) => user.fields))}
-            {/* <p>
-                {localUsers &&
-                    localUsers.map((user) => (
-                        <p>
-                            <strong>Name:</strong> {user.fields.Name} Phone: {user.fields.Phone} Email: {user.fields.Email} Instrument: {user.fields.Instrument}
-                        </p>
-                    ))}
-            </p> */}
-
-            {/* {localUsers.map(user => user.records.map(name => name.fields.Name))} */}
-
-            {/* <p> {users} </p> */}
-            {/* <p> {() => setlocalUsers(users)} </p> */}
-
+            
             <TableContainer component={Paper}>
                 <Table className={classes.table} aria-label="simple table">
                     <TableHead>
@@ -110,30 +131,30 @@ export function UserList(users) {
                                         { user.fields.Phone && user.fields.Phone && user.fields.Instrument && user.fields.City && user.fields.Bio && (userW9URL(user.fields).props.color !== "red" ) && (userHeadshot(user.fields).props.color !== "red" ) ? <font color="green">Good</font> : <font color="red">Info Missing</font>}
                                     </TableCell>
                                     <TableCell align="center">
-                                        {user.fields.Name}
+                                        {userName(user.fields)}
+                                        {"missingData: ", missingData(user.fields)}
                                     </TableCell>
                                     <TableCell align="center">
-                                        {user.fields.Phone ? user.fields.Phone : <font color="red">missing phone number</font>}
+                                        {userPhone(user.fields)}
                                     </TableCell>
                                     <TableCell align="center">
-                                        {user.fields.Email ? user.fields.Email : <font color="red">missing email</font>}
-                                        {/* {user.fields.Email ? <a href="mailto:${user.fields.Email}">{user.fields.Email}</a> : <font color="red">missing email</font>} */}
+                                        {userEmail(user.fields)}
                                     </TableCell>
                                     <TableCell align="center">
-                                        {user.fields.Instrument ? user.fields.Instrument : <font color="red">missing instrument(s)</font>}
+                                        {userInstrument(user.fields)}
                                     </TableCell>
                                     <TableCell align="center">
-                                        {user.fields.City ? user.fields.City : <font color="red">missing city</font>}
+                                        {userCity(user.fields)}
+                                    </TableCell>
+                                    <TableCell align="center" width="200">
+                                        {userBio(user.fields)}
                                     </TableCell>
                                     <TableCell align="center">
-                                        {user.fields.Bio ? user.fields.Bio : <font color="red">missing bio</font>}
+                                        {userW9URL(user.fields)}
                                     </TableCell>
-                                    <TableCell align="center">{userW9URL(user.fields)}</TableCell>
-                                    <TableCell align="center">{userHeadshotURL(user.fields)}{userHeadshotThumbnails(user.fields)}</TableCell>
-                                    <TableCell align="center"></TableCell>
-                                    {/* <TableCell align="center">{user.fields['W9'][0].url.toString()}</TableCell> */}
-                                    {/* <TableCell align="center">{user.fields.Headshot["url"]}</TableCell> */}
-                                    {/* <TableCell align="center">{user.id}</TableCell> */}
+                                    <TableCell align="center">
+                                        {userHeadshotURL(user.fields)}<br />
+                                        {userHeadshotThumbnails(user.fields)}</TableCell>
 
                                 </TableRow>
                             ))}
