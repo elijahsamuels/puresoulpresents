@@ -38,11 +38,16 @@ export function UserList(users) {
     }
 
     const userHeadshot = (userData) => {
-        // console.log(userData["Headshot"])
+        // console.log(Object.values(userData["Headshot"][0]["thumbnails"]))
         return userData["Headshot"] ? <a href={userData["Headshot"][0].url}>Headshot</a> : <font color="red">missing Headshot</font>
     }
     const userHeadshotURL = (userData) => {
         return userData["Headshot"] ? <img src={`${userData["Headshot"][0].url}`} alt="User" width="100" /> : <img src={userSamplePhoto} alt="User" width="100" />
+    }
+
+    const userHeadshotThumbnails = (userData) => {
+        return userData["Headshot"] ? 
+        <span><a href={`${Object.values(userData["Headshot"][0]["thumbnails"])[0].url}`}>Small</a>{" "}<a href={`${Object.values(userData["Headshot"][0]["thumbnails"])[1].url}`}>Medium</a>{" "}<a href={`${Object.values(userData["Headshot"][0]["thumbnails"])[2].url}`}>Large</a></span> : false
     }
 
     useEffect(() => {
@@ -124,7 +129,8 @@ export function UserList(users) {
                                         {user.fields.Bio ? user.fields.Bio : <font color="red">missing bio</font>}
                                     </TableCell>
                                     <TableCell align="center">{userW9URL(user.fields)}</TableCell>
-                                    <TableCell align="center">{userHeadshotURL(user.fields)}</TableCell>
+                                    <TableCell align="center">{userHeadshotURL(user.fields)}{userHeadshotThumbnails(user.fields)}</TableCell>
+                                    <TableCell align="center"></TableCell>
                                     {/* <TableCell align="center">{user.fields['W9'][0].url.toString()}</TableCell> */}
                                     {/* <TableCell align="center">{user.fields.Headshot["url"]}</TableCell> */}
                                     {/* <TableCell align="center">{user.id}</TableCell> */}
