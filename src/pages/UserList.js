@@ -77,9 +77,11 @@ export function UserList(users) {
 
     const missingData = (userData) => {
         let missingItems = []
+        
+        return userData.Phone && userData.Phone && userData.Instrument && userData.City && userData.Bio && (userW9URL(userData).props.color !== "red" ) && (userHeadshot(userData).props.color !== "red" ) ? <font color="green">Good</font> : <font color="red">Info Missing</font>
         // userData.Name ? true : missingItems.push(userData.Name)
-        userData.Phone ? true : missingItems.push(userData.Phone)
-        return missingItems
+        // userData.Phone ? true : missingItems.push(userData.Phone)
+        // return missingItems
 
     }
 
@@ -122,42 +124,38 @@ export function UserList(users) {
                         </TableRow>
                     </TableHead>
                     <TableBody>
-                        {localUsers &&
-                            localUsers.map((user) => (
-                                <TableRow key={user.name}>
-                                    <TableCell align="center">
-                                        {/* {console.log(userW9URL(user.fields).props.color)} */}
-                                        {/* {  (userW9URL(user.fields).props.color !== "red" ) ? <font color="green">Good</font> : <font color="red">Info Missing</font>} */}
-                                        { user.fields.Phone && user.fields.Phone && user.fields.Instrument && user.fields.City && user.fields.Bio && (userW9URL(user.fields).props.color !== "red" ) && (userHeadshot(user.fields).props.color !== "red" ) ? <font color="green">Good</font> : <font color="red">Info Missing</font>}
-                                    </TableCell>
-                                    <TableCell align="center">
-                                        {userName(user.fields)}
-                                        {"missingData: ", missingData(user.fields)}
-                                    </TableCell>
-                                    <TableCell align="center">
-                                        {userPhone(user.fields)}
-                                    </TableCell>
-                                    <TableCell align="center">
-                                        {userEmail(user.fields)}
-                                    </TableCell>
-                                    <TableCell align="center">
-                                        {userInstrument(user.fields)}
-                                    </TableCell>
-                                    <TableCell align="center">
-                                        {userCity(user.fields)}
-                                    </TableCell>
-                                    <TableCell align="center" width="200">
-                                        {userBio(user.fields)}
-                                    </TableCell>
-                                    <TableCell align="center">
-                                        {userW9URL(user.fields)}
-                                    </TableCell>
-                                    <TableCell align="center">
-                                        {userHeadshotURL(user.fields)}<br />
-                                        {userHeadshotThumbnails(user.fields)}</TableCell>
-
-                                </TableRow>
-                            ))}
+                        {localUsers && localUsers.map((user) => (
+                            <TableRow key={user.name}>
+                                <TableCell align="center">
+                                    {missingData(user.fields)}
+                                </TableCell>
+                                <TableCell align="center">
+                                    {userName(user.fields)}
+                                </TableCell>
+                                <TableCell align="center">
+                                    {userPhone(user.fields)}
+                                </TableCell>
+                                <TableCell align="center">
+                                    {userEmail(user.fields)}
+                                </TableCell>
+                                <TableCell align="center">
+                                    {userInstrument(user.fields)}
+                                </TableCell>
+                                <TableCell align="center">
+                                    {userCity(user.fields)}
+                                </TableCell>
+                                <TableCell align="center" width="200">
+                                    {userBio(user.fields)}
+                                </TableCell>
+                                <TableCell align="center">
+                                    {userW9URL(user.fields)}
+                                </TableCell>
+                                <TableCell align="center">
+                                    {userHeadshotURL(user.fields)}<br />
+                                    {userHeadshotThumbnails(user.fields)}
+                                </TableCell>
+                            </TableRow>
+                        ))}
                     </TableBody>
                 </Table>    
             </TableContainer>
