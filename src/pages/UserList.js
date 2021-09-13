@@ -40,26 +40,24 @@ export function UserList(users) {
     const userPhone = (userData) => {
         return userData.Phone ? {true: userData.Phone} : {false: <font color="red">Missing Phone</font>}
     }
-
-    // const userPhone = (userData) => {
-    //     return userData.Phone ? userData.Phone : <font color="red">Missing Phone</font>
-    // }
-
+    
     const userInstrument = (userData) => {
-        return userData.Instrument ? userData.Instrument : <font color="red">Missing Instrument</font>
+        return userData.Instrument ? {true: userData.Instrument} : {false: <font color="red">Missing Instrument</font>}
     }
-
+    
     const userCity = (userData) => {
-        return userData.City ? userData.City : <font color="red">Missing City</font>
+        return userData.City ? {true: userData.City} : {false: <font color="red">Missing City</font>}
     }
-
+    
     const userBio = (userData) => {
-        return userData.Bio ? userData.Bio : <font color="red">Missing Bio</font>
+        return userData.Bio ? {true: userData.Bio} : {false: <font color="red">Missing Bio</font>}
     }
-
+    
     // This string interpolation needs to be fixed
     const userEmail = (userData) => {
-        return userData.Email ? <a href="mailto:${user.Email}">{userData.Email}</a> : <font color="red">Missing Email</font>
+        return userData.Email ? {true: userData.Email} : {false: <font color="red">Missing Email</font>}
+        // "<a href='mailto:${user.Email}'>{userData.Email}</a>"
+        // return userData.Phone ? {true: userData.Phone} : {false: <font color="red">Missing Phone</font>}
     }
 
     const userW9URL = (userData) => {
@@ -74,26 +72,45 @@ export function UserList(users) {
         return userData["Headshot"] ? 
         <span><a href={`${Object.values(userData["Headshot"][0]["thumbnails"])[0].url}`}>Small</a>{" "}<a href={`${Object.values(userData["Headshot"][0]["thumbnails"])[1].url}`}>Medium</a>{" "}<a href={`${Object.values(userData["Headshot"][0]["thumbnails"])[2].url}`}>Large</a></span> : false
     }
+
     const missingData = (userData) => {
         // filter out user items that are undefined, and list those items. undefinded items are missing,
         // once the list is generated, use this info to send user an email requesting that info.
         let items = []
         
-        // if (userPhone(userData) === false) {
-        //     items.push("Phone")
-        // }
-        if (typeof userName(userData) === "object") {
-            items.push("Name")
+        if (Object.keys(userPhone(userData))[0] === "false") {
+            console.log("userPhone: ", Object.keys(userPhone(userData))[0])
+            items.push("Phone")
         }
-        if (typeof userEmail(userData) === "symbol") {
-            console.log("userEmail: ", userEmail(userData))
+        if (Object.keys(userEmail(userData))[0] === "false") {
+            console.log("userEmail: ", Object.keys(userEmail(userData))[0])
             items.push("Email")
         }
-        
-        if (typeof userInstrument(userData) === "symbol") {
-            // console.log("userInstrument: ", userInstrument(userData))
+        if (Object.keys(userInstrument(userData))[0] === "false") {
+            console.log("userInstrument: ", Object.keys(userInstrument(userData))[0])
             items.push("Instrument")
         }
+        if (Object.keys(userCity(userData))[0] === "false") {
+            console.log("userCity: ", Object.keys(userCity(userData))[0])
+            items.push("City")
+        }
+        if (Object.keys(userBio(userData))[0] === "false") {
+            console.log("userBio: ", Object.keys(userBio(userData))[0])
+            items.push("Bio")
+        }
+        // if (typeof userEmail(userData) === "symbol") {
+        //     console.log("userEmail: ", userEmail(userData))
+        //     items.push("Email")
+        // }
+
+        // if (typeof userName(userData) === "object") {
+        //     items.push("Name")
+        // }
+        
+        // if (typeof userInstrument(userData) === "symbol") {
+        //     // console.log("userInstrument: ", userInstrument(userData))
+        //     items.push("Instrument")
+        // }
         
         if (items.length > 0) {
             
@@ -101,8 +118,6 @@ export function UserList(users) {
         } else {
             return <font color="green">Good</font>
         }
-        // console.log("items: ", items)
-
     }
 
     useEffect(() => {
@@ -146,8 +161,9 @@ export function UserList(users) {
                             <TableRow key={user.name}>
                                 <TableCell align="center">
                                 {/* {console.log(typeof (userPhone(user.fields)))}             */}
+                                {/* {console.log("userPhone: ", Object.keys(userPhone(user.fields))[0])} */}
 
-                                    {/* {missingData(user.fields)} */}
+                                    {missingData(user.fields)}
                                 </TableCell>
                                 <TableCell align="center">
                                     {userName(user.fields)}
@@ -156,22 +172,22 @@ export function UserList(users) {
                                     {Object.values(userPhone(user.fields))}
                                 </TableCell>
                                 <TableCell align="center">
-                                    {userEmail(user.fields)}
+                                    {Object.values(userEmail(user.fields))}
                                 </TableCell>
                                 <TableCell align="center">
-                                    {userInstrument(user.fields)}
+                                    {Object.values(userInstrument(user.fields))}
                                 </TableCell>
                                 <TableCell align="center">
-                                    {userCity(user.fields)}
+                                    {Object.values(userCity(user.fields))}
                                 </TableCell>
                                 <TableCell align="center" width="200">
-                                    {userBio(user.fields)}
+                                    {Object.values(userBio(user.fields))}
                                 </TableCell>
                                 <TableCell align="center">
                                     {userW9URL(user.fields)}
                                 </TableCell>
                                 <TableCell align="center">
-                                    {userHeadshot(user.fields)}<br />
+                                    {/* {userHeadshot(user.fields)}<br /> */}
                                     {userHeadshotThumbnails(user.fields)}
                                 </TableCell>
                             </TableRow>
