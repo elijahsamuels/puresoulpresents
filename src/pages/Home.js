@@ -10,7 +10,7 @@ export function Index() {
                 <br /><img src={userSamplePhoto} alt="User" width="300" />
 				<br /><Link to="/userdetails">User Details</Link>
 				<br /><Link to="/userlist">User List</Link>
-                
+				<br /><Link to="/contact">Contact</Link>
             </div>
         );
     }

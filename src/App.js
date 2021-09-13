@@ -7,6 +7,7 @@ import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
 import { getAllPureSoulPresentsMusicians } from "./actions/userActions";
 import { UserDetails } from "./pages/UserDetails";
 import { UserList } from "./pages/UserList";
+import { Contact } from "./pages/Contact";
 import Home from "./pages/Home";
 // import UserDetails from "./pages/userDetails";
 
@@ -18,6 +19,7 @@ function App() {
                     <Route exact path="/" component={Home} />
                     <Route exact path="/userdetails" component={UserDetails} />
                     <Route exact path="/userlist" component={UserList} />
+                    <Route exact path="/contact" component={Contact} />
                 </Switch>
             </Router>
         </div>
