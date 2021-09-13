@@ -61,11 +61,11 @@ export function UserList(users) {
     }
 
     const userW9URL = (userData) => {
-        return userData["W9"] ? <a href={userData["W9"][0].url}>User W9</a> : <font color="red">missing W9</font>
+        return userData["W9"] ? {true: <a href={userData["W9"][0].url}>User W9</a>} : {false: <font color="red">missing W9</font>}
     }
 
     const userHeadshot = (userData) => {
-        return userData["Headshot"] ? <img src={`${userData["Headshot"][0].url}`} alt="User" width="100" /> : <img src={userSamplePhoto} alt="User" width="100" />
+        return userData["Headshot"] ? {true: <img src={`${userData["Headshot"][0].url}`} alt="User" width="100" /> } : {false: <img src={userSamplePhoto} alt="User" width="100" />}
     }
 
     const userHeadshotThumbnails = (userData) => {
@@ -79,24 +79,32 @@ export function UserList(users) {
         let items = []
         
         if (Object.keys(userPhone(userData))[0] === "false") {
-            console.log("userPhone: ", Object.keys(userPhone(userData))[0])
+            // console.log("userPhone: ", Object.keys(userPhone(userData))[0])
             items.push("Phone")
         }
         if (Object.keys(userEmail(userData))[0] === "false") {
-            console.log("userEmail: ", Object.keys(userEmail(userData))[0])
+            // console.log("userEmail: ", Object.keys(userEmail(userData))[0])
             items.push("Email")
         }
         if (Object.keys(userInstrument(userData))[0] === "false") {
-            console.log("userInstrument: ", Object.keys(userInstrument(userData))[0])
+            // console.log("userInstrument: ", Object.keys(userInstrument(userData))[0])
             items.push("Instrument")
         }
         if (Object.keys(userCity(userData))[0] === "false") {
-            console.log("userCity: ", Object.keys(userCity(userData))[0])
+            // console.log("userCity: ", Object.keys(userCity(userData))[0])
             items.push("City")
         }
         if (Object.keys(userBio(userData))[0] === "false") {
-            console.log("userBio: ", Object.keys(userBio(userData))[0])
+            // console.log("userBio: ", Object.keys(userBio(userData))[0])
             items.push("Bio")
+        }
+        if (Object.keys(userW9URL(userData))[0] === "false") {
+            console.log("userW9URL: ", Object.keys(userW9URL(userData))[0])
+            items.push("W9")
+        }
+        if (Object.keys(userHeadshot(userData))[0] === "false") {
+            console.log("userHeadshot: ", Object.keys(userHeadshot(userData))[0])
+            items.push("Headshot")
         }
         // if (typeof userEmail(userData) === "symbol") {
         //     console.log("userEmail: ", userEmail(userData))
@@ -140,7 +148,7 @@ export function UserList(users) {
             </li>
             <h1>User list</h1>
 
-            {console.log(localUsers && localUsers.map((user) => user.fields))}
+            {/* {console.log(localUsers && localUsers.map((user) => user.fields))} */}
             <TableContainer component={Paper}>
                 <Table className={classes.table} aria-label="simple table">
                     <TableHead>
@@ -160,9 +168,6 @@ export function UserList(users) {
                         {localUsers && localUsers.map((user) => (
                             <TableRow key={user.name}>
                                 <TableCell align="center">
-                                {/* {console.log(typeof (userPhone(user.fields)))}             */}
-                                {/* {console.log("userPhone: ", Object.keys(userPhone(user.fields))[0])} */}
-
                                     {missingData(user.fields)}
                                 </TableCell>
                                 <TableCell align="center">
@@ -184,10 +189,11 @@ export function UserList(users) {
                                     {Object.values(userBio(user.fields))}
                                 </TableCell>
                                 <TableCell align="center">
-                                    {userW9URL(user.fields)}
+                                    {Object.values(userW9URL(user.fields))}
                                 </TableCell>
                                 <TableCell align="center">
-                                    {/* {userHeadshot(user.fields)}<br /> */}
+                                    {Object.values(userHeadshot(user.fields))}
+                                    <br/>
                                     {userHeadshotThumbnails(user.fields)}
                                 </TableCell>
                             </TableRow>
