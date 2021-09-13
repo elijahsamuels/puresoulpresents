@@ -99,34 +99,25 @@ export function UserList(users) {
             items.push("Bio")
         }
         if (Object.keys(userW9URL(userData))[0] === "false") {
-            console.log("userW9URL: ", Object.keys(userW9URL(userData))[0])
+            // console.log("userW9URL: ", Object.keys(userW9URL(userData))[0])
             items.push("W9")
         }
         if (Object.keys(userHeadshot(userData))[0] === "false") {
-            console.log("userHeadshot: ", Object.keys(userHeadshot(userData))[0])
+            // console.log("userHeadshot: ", Object.keys(userHeadshot(userData))[0])
             items.push("Headshot")
         }
-        // if (typeof userEmail(userData) === "symbol") {
-        //     console.log("userEmail: ", userEmail(userData))
-        //     items.push("Email")
-        // }
-
-        // if (typeof userName(userData) === "object") {
-        //     items.push("Name")
-        // }
-        
-        // if (typeof userInstrument(userData) === "symbol") {
-        //     // console.log("userInstrument: ", userInstrument(userData))
-        //     items.push("Instrument")
-        // }
         
         if (items.length > 0) {
-            
             return <font color="red">Items Missing: {items.toString()}</font>
         } else {
             return <font color="green">Good</font>
         }
     }
+
+    // const emailUserAboutMissingData = (userData) => {
+    //     missingData(userData)
+
+    // }
 
     useEffect(() => {
         fetch(`${allPureSoulPresentsMuisicians}`)
@@ -146,7 +137,7 @@ export function UserList(users) {
             <li>
                 <Link to="/userdetails">User Details</Link>
             </li>
-            <h1>User list</h1>
+            <h1>PureSoul Presents Musician List</h1>
 
             {/* {console.log(localUsers && localUsers.map((user) => user.fields))} */}
             <TableContainer component={Paper}>
@@ -169,6 +160,8 @@ export function UserList(users) {
                             <TableRow key={user.name}>
                                 <TableCell align="center">
                                     {missingData(user.fields)}
+                                    <br />
+                                    <button >Send Email</button>
                                 </TableCell>
                                 <TableCell align="center">
                                     {userName(user.fields)}

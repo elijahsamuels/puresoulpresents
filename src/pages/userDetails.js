@@ -12,7 +12,9 @@ import { getAllMusicianData } from "../actions/userActions";
 export function UserDetails() {
     return (
         <div className="userDetails">
-            <Link to="/">Home </Link>
+            <Link to="/">Home </Link><br />
+            <Link to="/userlist">User List</Link>
+
             <h2>User Card: </h2>
             <UserPhoto />
             <UserInfo />

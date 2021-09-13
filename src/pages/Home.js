@@ -1,28 +1,15 @@
 import React from "react";
 import { Link } from 'react-router-dom';
-
+import userSamplePhoto from "../images/puresoulpresents.png";
 
 
 export function Index() {
         return (
             <div>
-				Welcome to PureSoul Presents
-
-				<li><Link to="/userdetails">User Details</Link></li>
-				<li><Link to="/userlist">User List</Link></li>
-
-
-
-
-
-
-
-
-
-
-
-
-
+				{/* <h1>Welcome to PureSoul Presents</h1> */}
+                <br /><img src={userSamplePhoto} alt="User" width="300" />
+				<br /><Link to="/userdetails">User Details</Link>
+				<br /><Link to="/userlist">User List</Link>
                 
             </div>
         );
