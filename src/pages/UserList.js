@@ -38,8 +38,12 @@ export function UserList(users) {
     }
 
     const userPhone = (userData) => {
-        return userData.Phone ? userData.Phone : <font color="red">Missing Phone</font>
+        return userData.Phone ? {true: userData.Phone} : {false: <font color="red">Missing Phone</font>}
     }
+
+    // const userPhone = (userData) => {
+    //     return userData.Phone ? userData.Phone : <font color="red">Missing Phone</font>
+    // }
 
     const userInstrument = (userData) => {
         return userData.Instrument ? userData.Instrument : <font color="red">Missing Instrument</font>
@@ -63,10 +67,6 @@ export function UserList(users) {
     }
 
     const userHeadshot = (userData) => {
-        return userData["Headshot"] ? <a href={userData["Headshot"][0].url}>Headshot</a> : <font color="red">missing Headshot</font>
-    }
-
-    const userHeadshotURL = (userData) => {
         return userData["Headshot"] ? <img src={`${userData["Headshot"][0].url}`} alt="User" width="100" /> : <img src={userSamplePhoto} alt="User" width="100" />
     }
 
@@ -74,14 +74,34 @@ export function UserList(users) {
         return userData["Headshot"] ? 
         <span><a href={`${Object.values(userData["Headshot"][0]["thumbnails"])[0].url}`}>Small</a>{" "}<a href={`${Object.values(userData["Headshot"][0]["thumbnails"])[1].url}`}>Medium</a>{" "}<a href={`${Object.values(userData["Headshot"][0]["thumbnails"])[2].url}`}>Large</a></span> : false
     }
-
     const missingData = (userData) => {
-        let missingItems = []
+        // filter out user items that are undefined, and list those items. undefinded items are missing,
+        // once the list is generated, use this info to send user an email requesting that info.
+        let items = []
         
-        return userData.Phone && userData.Phone && userData.Instrument && userData.City && userData.Bio && (userW9URL(userData).props.color !== "red" ) && (userHeadshot(userData).props.color !== "red" ) ? <font color="green">Good</font> : <font color="red">Info Missing</font>
-        // userData.Name ? true : missingItems.push(userData.Name)
-        // userData.Phone ? true : missingItems.push(userData.Phone)
-        // return missingItems
+        // if (userPhone(userData) === false) {
+        //     items.push("Phone")
+        // }
+        if (typeof userName(userData) === "object") {
+            items.push("Name")
+        }
+        if (typeof userEmail(userData) === "symbol") {
+            console.log("userEmail: ", userEmail(userData))
+            items.push("Email")
+        }
+        
+        if (typeof userInstrument(userData) === "symbol") {
+            // console.log("userInstrument: ", userInstrument(userData))
+            items.push("Instrument")
+        }
+        
+        if (items.length > 0) {
+            
+            return <font color="red">Items Missing: {items.toString()}</font>
+        } else {
+            return <font color="green">Good</font>
+        }
+        // console.log("items: ", items)
 
     }
 
@@ -90,10 +110,9 @@ export function UserList(users) {
             .then((response) => response.json())
             // .then(data => console.log(data.records[0].fields.Name))
             .then((data) => setlocalUsers(data.records))
-
             // .then((data) => dispatch({ type: "SET_USERS". data}))
             .catch((error) => console.log(error));
-        console.log("useEffect Ran");
+        // console.log("useEffect Ran");
     }, []);
         
     return (
@@ -107,7 +126,6 @@ export function UserList(users) {
             <h1>User list</h1>
 
             {console.log(localUsers && localUsers.map((user) => user.fields))}
-            
             <TableContainer component={Paper}>
                 <Table className={classes.table} aria-label="simple table">
                     <TableHead>
@@ -127,13 +145,15 @@ export function UserList(users) {
                         {localUsers && localUsers.map((user) => (
                             <TableRow key={user.name}>
                                 <TableCell align="center">
-                                    {missingData(user.fields)}
+                                {/* {console.log(typeof (userPhone(user.fields)))}             */}
+
+                                    {/* {missingData(user.fields)} */}
                                 </TableCell>
                                 <TableCell align="center">
                                     {userName(user.fields)}
                                 </TableCell>
                                 <TableCell align="center">
-                                    {userPhone(user.fields)}
+                                    {Object.values(userPhone(user.fields))}
                                 </TableCell>
                                 <TableCell align="center">
                                     {userEmail(user.fields)}
@@ -151,7 +171,7 @@ export function UserList(users) {
                                     {userW9URL(user.fields)}
                                 </TableCell>
                                 <TableCell align="center">
-                                    {userHeadshotURL(user.fields)}<br />
+                                    {userHeadshot(user.fields)}<br />
                                     {userHeadshotThumbnails(user.fields)}
                                 </TableCell>
                             </TableRow>
