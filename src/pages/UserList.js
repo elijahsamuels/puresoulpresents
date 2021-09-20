@@ -84,16 +84,21 @@ export function UserList(users) {
 
         if (userData["W9"]){
             userData.localItem = userData["W9"][0].url
-            return Object.values(userTernary(userData, missingItem))     
+            return <a href={`${Object.values(userTernary(userData, missingItem))}`}>User {missingItem}</a>
         } else {
             return Object.values(userTernary(userData, missingItem)) 
         }
     }
-
+    
     const userHeadshot = (userData) => {
-        return userData["Headshot"] ? 
-        {true: <img src={`${userData["Headshot"][0].url}`} alt="User" width="100" /> } 
-        : {false: <img src={userSamplePhoto} alt="User" width="100" />}
+        let missingItem = "Headshot"
+    
+        if (userData["Headshot"]){
+            userData.localItem = userData["Headshot"][0].url
+            return <img src={`${userData["Headshot"][0].url}`} alt="User" width="100" />
+        } else {
+            return <img src={userSamplePhoto} alt="User" width="100" /> 
+        }
     }
 
     const userHeadshotThumbnails = (userData) => {
@@ -111,8 +116,8 @@ export function UserList(users) {
         // once the list is generated, use this info to send user an email requesting that info.
         let items = []
         
-        if (Object.keys(userPhone(userData))[0] === "false") {
-            // console.log("userPhone: ", Object.keys(userPhone(userData))[0])
+        console.log("userPhone: ", userPhone(userData))
+        if (typeof userPhone(userData)[0] !== "string") {
             items.push("Phone")
         }
         if (Object.keys(userEmail(userData))[0] === "false") {
@@ -292,7 +297,7 @@ export function UserList(users) {
                                         key={"userHeadshot_"+user.id} 
                                         id={"userHeadshot_"+user.id} 
                                         align="center">
-                                        {Object.values(userHeadshot(user.fields))}
+                                        {userHeadshot(user.fields)}
                                         <br/>
                                         {userHeadshotThumbnails(user.fields)}
                                     </TableCell>
