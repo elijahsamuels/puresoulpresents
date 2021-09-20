@@ -8,8 +8,8 @@ import { getAllPureSoulPresentsMusicians } from "./actions/userActions";
 import { UserDetails } from "./pages/UserDetails";
 import { UserList } from "./pages/UserList";
 import { Contact } from "./pages/Contact";
+import { Test } from "./pages/Test";
 import Home from "./pages/Home";
-// import UserDetails from "./pages/userDetails";
 
 function App() {
     return (
@@ -20,6 +20,7 @@ function App() {
                     <Route exact path="/userdetails" component={UserDetails} />
                     <Route exact path="/userlist" component={UserList} />
                     <Route exact path="/contact" component={Contact} />
+                    {/* <Route exact path="/test" component={Test} /> */}
                 </Switch>
             </Router>
         </div>

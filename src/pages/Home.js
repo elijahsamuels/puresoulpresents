@@ -11,6 +11,8 @@ export function Index() {
 				<br /><Link to="/userdetails">User Details</Link>
 				<br /><Link to="/userlist">User List</Link>
 				<br /><Link to="/contact">Contact</Link>
+				{/* <br /><Link to="/test">Test</Link> */}
+                
             </div>
         );
     }

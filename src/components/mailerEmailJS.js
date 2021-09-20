@@ -6,12 +6,12 @@ import emailjs from "emailjs-com"
 
 const Mailer = () => {
 
-    const sendEmail = (e) => {
-        e.preventDefault();
+    const sendEmail = (event) => {
+        event.preventDefault();
         emailjs.sendForm(
                 "service_clkp08f",
                 "template_fs3l63r",
-                e.target,
+                event.target,
                 "user_ESBZ6f0nCHblj4DBipIIq"
             )
             .then((response) => console.log(response))
