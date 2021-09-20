@@ -72,7 +72,6 @@ export function UserList(users) {
         return Object.values(userTernary(userData, missingItem))       
     }
     
-    // This string interpolation needs to be fixed
     const userEmail = (userData) => {
         let missingItem = "Email"
         userData.localItem = userData.Email
@@ -116,37 +115,36 @@ export function UserList(users) {
         // once the list is generated, use this info to send user an email requesting that info.
         let items = []
         
-        console.log("userPhone: ", userPhone(userData))
+        // console.log("userPhone: ", userPhone(userData))
         if (typeof userPhone(userData)[0] !== "string") {
             items.push("Phone")
         }
-        if (Object.keys(userEmail(userData))[0] === "false") {
-            // console.log("userEmail: ", Object.keys(userEmail(userData))[0])
+        // console.log("userEmail: ", userEmail(userData))
+        if (typeof userEmail(userData)[0] !== "string") {
             items.push("Email")
         }
-        if (Object.keys(userInstrument(userData))[0] === "false") {
-            // console.log("userInstrument: ", Object.keys(userInstrument(userData))[0])
+        console.log("userInstrument: ", Array.isArray(userInstrument(userData)[0]))
+        if (!Array.isArray(userInstrument(userData)[0])) {
             items.push("Instrument")
         }
-        if (Object.keys(userCity(userData))[0] === "false") {
-            // console.log("userCity: ", Object.keys(userCity(userData))[0])
+        if (typeof userCity(userData)[0] !== "string") {
             items.push("City")
         }
-        if (Object.keys(userBio(userData))[0] === "false") {
-            // console.log("userBio: ", Object.keys(userBio(userData))[0])
+        if (typeof userBio(userData)[0] !== "string") {
             items.push("Bio")
         }
-        // if (Object.keys(userW9URL(userData))[0] === "false") {
-        //     // console.log("userW9URL: ", Object.keys(userW9URL(userData))[0])
-        //     items.push("W9")
-        // }
-        if (Object.keys(userHeadshot(userData))[0] === "false") {
-            // console.log("userHeadshot: ", Object.keys(userHeadshot(userData))[0])
+        
+        if (userW9URL(userData)[0] !== undefined ) {
+                items.push("W9")
+            }
+            
+        if (userHeadshot(userData).props.src.includes("userSamplePhoto")) {
             items.push("Headshot")
         }
         
         if (items.length > 0) {
-            return <font color="red">Items Missing: {items.toString()}</font>
+            let missingItemsList = items.map((item) => <li>{item}</li>);
+            return <font color="red">Items Missing: {missingItemsList}</font>
         } else {
             return <font color="green">Good</font>
         }
@@ -217,19 +215,18 @@ export function UserList(users) {
                 <Link to="/userdetails">User Details</Link>
             </span>
             <h1>PureSoul Presents Musician List</h1>
-            {/* {console.log(localUsers && localUsers.map((user) => user.fields))} */}
             <TableContainer key={"tableContainer"} id={"tableContainer"} component={Paper}>
                 <Table key={"table"} id={"table"} className={classes.table} aria-label="simple table">
                     <TableHead key={"tableHead"} id={"tableHead"} >
                         <TableRow key={"tableRow"} id={"tableRow"}>
-                            <TableCell key={"allgood"} id={"allgood"} align="center">All Good?</TableCell>
-                            <TableCell key={"firstname"} id={"firstname"} align="center">Name</TableCell>
-                            <TableCell key={"phone"} id={"phone"} align="center">Phone</TableCell>
-                            <TableCell key={"email"} id={"email"} align="center">Email</TableCell>
-                            <TableCell key={"instrument"} id={"instrument"} align="center">Instrument</TableCell>
-                            <TableCell key={"city"} id={"city"} align="center">City</TableCell>
+                            <TableCell key={"allgood"} id={"allgood"} align="left" width="10%">All Good?</TableCell>
+                            <TableCell key={"firstname"} id={"firstname"} align="center" width="10%">Name</TableCell>
+                            <TableCell key={"phone"} id={"phone"} align="center" width="10%">Phone</TableCell>
+                            <TableCell key={"email"} id={"email"} align="center" width="10%">Email</TableCell>
+                            <TableCell key={"instrument"} id={"instrument"} align="center" width="10%">Instrument</TableCell>
+                            <TableCell key={"city"} id={"city"} align="center" width="10%">City</TableCell>
                             <TableCell key={"bio"} bio={"bio"} align="center">Bio</TableCell>
-                            <TableCell key={"w9"} id={"w9"} align="center">W9</TableCell>
+                            <TableCell key={"w9"} id={"w9"} align="center" width="5%">W9</TableCell>
                             <TableCell key={"headshot"} id={"headshot"} align="center">Headshot</TableCell>
                         </TableRow>
                     </TableHead>
@@ -240,11 +237,10 @@ export function UserList(users) {
                                 <TableRow 
                                     key={"userRow_"+user.id} 
                                     id={"userRow_"+user.id}>
-                                    {/* {console.log(user.id)} */}
                                     <TableCell 
                                         key={"userMissingData_"+user.id} 
                                         id={"userMissingData_"+user.id} 
-                                        align="center">
+                                        align="left">
                                         {missingData(user.fields)}
                                         <br />
                                         {sendUserEmailAboutMissingData(user.fields)}
@@ -283,15 +279,16 @@ export function UserList(users) {
                                     <TableCell 
                                         key={"userBio_"+user.id} 
                                         id={"userBio_"+user.id} 
-                                        align="center" width="200">
+                                        align="center" width="">
+                                    
                                         {userBio(user.fields)}
+
                                     </TableCell>
                                     <TableCell 
                                         key={"userW9URL_"+user.id} 
                                         id={"userW9URL_"+user.id} 
                                         align="center">
                                         {userW9URL(user.fields)}
-                                        {/* {Object.values(userW9URL(user.fields))} */}
                                     </TableCell>
                                     <TableCell 
                                         key={"userHeadshot_"+user.id} 
