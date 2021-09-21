@@ -38,7 +38,9 @@ export function UserList(users) {
     const [localUsers, setlocalUsers] = useState(null);
 
     const userTernary = (userData, missingItem) => {
-        return userData.localItem ? { true: userData.localItem } : { false: <font color="red">Missing {missingItem}</font> }
+        return userData.localItem
+          ? { true: userData.localItem }
+          : { false: <font color="red">Missing {missingItem}</font> };
     }
 
     const userName = (userData) => {
@@ -80,12 +82,19 @@ export function UserList(users) {
     
     const userW9URL = (userData) => {
         let missingItem = "W9"
-
-        if (userData["W9"]){
+        
+        // console.log(userData)
+        // console.log(userData["W9"])
+        // console.log("userTernary(userData, missingItem: ", userTernary(userData, missingItem) )
+        // console.log("missingItem: ", missingItem )
+        // console.log("userData[w9][0].url: ", userData["W9"] )
+        if (userData["W9"] === undefined){
+            return <font color="red">Missing {missingItem}</font>
+        } else if (userData["W9"][0].url){
             userData.localItem = userData["W9"][0].url
+            // console.log("userData.localItem: ", userData.localItem)
             return <a href={`${Object.values(userTernary(userData, missingItem))}`}>User {missingItem}</a>
-        } else {
-            return Object.values(userTernary(userData, missingItem)) 
+            // return Object.values(userTernary(userData, missingItem)) 
         }
     }
     
@@ -115,28 +124,29 @@ export function UserList(users) {
         // once the list is generated, use this info to send user an email requesting that info.
         let items = []
         
-        // console.log("userPhone: ", userPhone(userData))
         if (typeof userPhone(userData)[0] !== "string") {
             items.push("Phone")
         }
-        // console.log("userEmail: ", userEmail(userData))
+        
         if (typeof userEmail(userData)[0] !== "string") {
             items.push("Email")
         }
-        console.log("userInstrument: ", Array.isArray(userInstrument(userData)[0]))
+        
         if (!Array.isArray(userInstrument(userData)[0])) {
             items.push("Instrument")
         }
+        
         if (typeof userCity(userData)[0] !== "string") {
             items.push("City")
         }
+
         if (typeof userBio(userData)[0] !== "string") {
             items.push("Bio")
         }
         
-        if (userW9URL(userData)[0] !== undefined ) {
-                items.push("W9")
-            }
+        if (userW9URL(userData).props.href === undefined ) {
+            items.push("W9")
+        }
             
         if (userHeadshot(userData).props.src.includes("userSamplePhoto")) {
             items.push("Headshot")
@@ -181,7 +191,7 @@ export function UserList(users) {
 
     useEffect(() => {
         base('ROSTER').select({
-            maxRecords: 30, // Selecting N records in Roster Only:
+            maxRecords: 12, // Selecting N records in Roster Only:
             view: "Roster Only"
         }).eachPage(function page(records, fetchNextPage) {
             // This function (`page`) will get called for each page of records.
@@ -280,9 +290,7 @@ export function UserList(users) {
                                         key={"userBio_"+user.id} 
                                         id={"userBio_"+user.id} 
                                         align="center" width="">
-                                    
                                         {userBio(user.fields)}
-
                                     </TableCell>
                                     <TableCell 
                                         key={"userW9URL_"+user.id} 
