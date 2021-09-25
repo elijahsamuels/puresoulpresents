@@ -1,3 +1,23 @@
+### Need to migrate away from AirTable. Too limiting.
+
+
+### Use Postgresql database
+- Tables
+  Users
+  Instruments
+  Events
+
+Event has_many Users
+A User can be invited to an event (has a user been invited: boolean)
+A User can confirm an invitation to an event (0: invited, 1:accpeted, 2: declined)
+
+
+
+
+
+
+
+
 # Getting Started with Create React App
 
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).

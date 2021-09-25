@@ -1,5 +1,9 @@
-import React from "react";
-import { useEffect } from "react";
+// import React from "react";
+// import { useEffect, useState } from "react";
+
+const puresoulAPIkey2 = process.env.REACT_APP_PURESOULAPIKEY2;
+const Airtable = require('airtable');
+const base = new Airtable({apiKey: puresoulAPIkey2}).base(puresoulAPI);
 
 require("dotenv").config();
 
@@ -13,9 +17,20 @@ const puresoulAPIkey = process.env.REACT_APP_PURESOULAPIKEY;
 const allPureSoulPresentsMuisicians = `${airtableURL}${puresoulAPI}${musiciansTable}${puresoulAPIkey}`;
 const allPureSoulPresentsDates = `${airtableURL}${puresoulAPI}${datesTable}${puresoulAPIkey}`;
 
+// const [localUsers, setlocalUsers] = useState(null);
+
 // useEffect(() => {
-//   getAllMusicianData()
-// }, [])
+//     base('ROSTER').select({ 
+//         maxRecords: 200, // Selecting N records in Roster Only:
+//         pageSize: 20,
+//         view: "Roster Only"
+//     }).eachPage(function page(records, fetchNextPage) {
+//         // This function (`page`) will get called for each page of records.
+//         setlocalUsers(records)
+//     }, function done(err) {
+//         if (err) { console.error(err`); return; }
+//     }
+//     )}, []);
 
 // async function getAllMusicianData() {
 //     await fetch(`${allPureSoulPresentsMuisicians}`)

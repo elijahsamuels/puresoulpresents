@@ -25,18 +25,24 @@ const allPureSoulPresentsDates = `${airtableURL}${puresoulAPI}/${datesTable}${pu
 const Airtable = require('airtable');
 const base = new Airtable({apiKey: puresoulAPIkey2}).base(puresoulAPI);
 
+// console.log(
+//   "base: ",
+//   base("ROSTER")
+//     .select()
+//     .all()
+//     .then(resp => resp )
+// );
+
 const useStyles = makeStyles({
     // table: {
     //     minWidth: 3,
     // },
 });
 
-export function UserList(users) {
+export function UserList() {
 
     const classes = useStyles();
-
-    const [localUsers, setlocalUsers] = useState(null);
-
+    
     const userTernary = (userData, missingItem) => {
         return userData.localItem
           ? { true: userData.localItem }
@@ -189,24 +195,38 @@ export function UserList(users) {
 
     // }
 
+    const [localUsers, setlocalUsers] = useState(null);
+
     useEffect(() => {
-        base('ROSTER').select({
-            maxRecords: 12, // Selecting N records in Roster Only:
+        base('ROSTER').select({ 
+            maxRecords: 200, // Selecting N records in Roster Only:
+            pageSize: 20,
             view: "Roster Only"
         }).eachPage(function page(records, fetchNextPage) {
             // This function (`page`) will get called for each page of records.
-            console.log('Records you requested this time: ', records.length)
             setlocalUsers(records)
-            // records.map(record => 
-                // record.fields
-                // console.log('Retrieved: ', record.fields)
-            // );
-            fetchNextPage();
         }, function done(err) {
             if (err) { console.error(err); return; }
         }
         )}, []);
-    // useEffect(() => {
+
+    const [pageUsers, setPageUsers] = useState(null);
+
+    useEffect(() => {
+        base('ROSTER').select({ 
+            maxRecords: 200, // Selecting N records in Roster Only:
+            pageSize: 20,
+            view: "Roster Only"
+        }).eachPage(function page(records, fetchNextPage) {
+            // This function (`page`) will get called for each page of records.
+            setPageUsers(fetchNextPage)
+        }, function done(err) {
+            if (err) { console.error(err); return; }
+        }
+        )}, []);
+    
+
+        // useEffect(() => {
     //     fetch(`${allPureSoulPresentsMuisicians}`)
     //         .then((response) => response.json())
     //         .then(data => console.log("data.records: ", data.records))
@@ -215,7 +235,11 @@ export function UserList(users) {
     //         .catch((error) => console.log(error));
     //     console.log("useEffect Ran");
     // }, []);
-        
+        const handleClick = () => {
+            console.log("clicked!")
+            console.log(setPageUsers())
+            setPageUsers()
+        }
     return (
         <div className="userList">
             <span>
@@ -224,9 +248,12 @@ export function UserList(users) {
             <span>
                 <Link to="/userdetails">User Details</Link>
             </span>
+
             <h1>PureSoul Presents Musician List</h1>
+            <button onClick={handleClick}>Next</button>  
+
             <TableContainer key={"tableContainer"} id={"tableContainer"} component={Paper}>
-                <Table key={"table"} id={"table"} className={classes.table} aria-label="simple table">
+                <Table key={"table"} id={"table"} className={classes.table} sx={{ minWidth: 650 }} size="small" >
                     <TableHead key={"tableHead"} id={"tableHead"} >
                         <TableRow key={"tableRow"} id={"tableRow"}>
                             <TableCell key={"allgood"} id={"allgood"} align="left" width="10%">All Good?</TableCell>
@@ -235,7 +262,7 @@ export function UserList(users) {
                             <TableCell key={"email"} id={"email"} align="center" width="10%">Email</TableCell>
                             <TableCell key={"instrument"} id={"instrument"} align="center" width="10%">Instrument</TableCell>
                             <TableCell key={"city"} id={"city"} align="center" width="10%">City</TableCell>
-                            <TableCell key={"bio"} bio={"bio"} align="center">Bio</TableCell>
+                            <TableCell key={"bio"} bio={"bio"} align="center" height="10">Bio</TableCell>
                             <TableCell key={"w9"} id={"w9"} align="center" width="5%">W9</TableCell>
                             <TableCell key={"headshot"} id={"headshot"} align="center">Headshot</TableCell>
                         </TableRow>
@@ -289,7 +316,7 @@ export function UserList(users) {
                                     <TableCell 
                                         key={"userBio_"+user.id} 
                                         id={"userBio_"+user.id} 
-                                        align="center" width="">
+                                        align="center" width="" height="10">
                                         {userBio(user.fields)}
                                     </TableCell>
                                     <TableCell 
